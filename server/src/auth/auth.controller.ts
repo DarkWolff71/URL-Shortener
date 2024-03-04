@@ -34,4 +34,11 @@ export class AuthController {
   isAuthenticated() {
     return {};
   }
+
+  @Get('signout')
+  @UseGuards(AuthGuard('jwt'))
+  signout(@Res({ passthrough: true }) res: Response) {
+    res.cookie('access_token', '', { expires: new Date(Date.now()) });
+    return {};
+  }
 }

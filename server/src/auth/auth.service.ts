@@ -65,15 +65,8 @@ export class AuthService {
     const accessToken = await this.getJwtToken(jwtPayload);
     res.cookie('access_token', accessToken, {
       httpOnly: true,
-      // Should be changed to below once productionised
-      // secure: process.env.NODE_ENV !== 'development',
-      // secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 30,
-      // sameSite: 'lax',
     });
-    res.setHeader('Access-Control-Expose-Headers', 'Set-Cookie');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-    res.setHeader('Access-Control-Allow-Credentrials', 'true');
     return { msg: 'Successfully authenticated.' };
   }
 

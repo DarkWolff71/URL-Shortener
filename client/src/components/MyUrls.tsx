@@ -12,6 +12,8 @@ import {
 } from "./ui/table";
 import { urlValidator } from "@/validators/formValidators";
 import { BACKEND_BASE_URL, FRONTEND_BASE_URL } from "@/lib/helpers";
+import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 type DbUrl = {
   originalUrl: string;
@@ -25,6 +27,7 @@ export function MyUrls() {
   let inputUrlRef = useRef<HTMLInputElement>(null);
   let [isValidInputUrl, setIsValidInputUrl] = useState<boolean>(true);
   let [inputUrlErrorMessage, setInputUrlErrorMessage] = useState<string>();
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function getUrls() {
@@ -69,11 +72,26 @@ export function MyUrls() {
     }
   }
 
+  async function signout() {
+    try {
+      axios.get(`${BACKEND_BASE_URL}/auth/signout`, { withCredentials: true });
+      navigate("/signin");
+    } catch (e) {
+      console.log("Failed to log out: ", e);
+    }
+  }
   return (
     <div className="min-h-screen w-full dark:bg-black ">
-      <h3 className="pt-5 px-10 dark:text-white text-center text-2xl font-bold	 ">
+      <div className="flex justify-end px-2 pt-2">
+        <button className=" dark:text-white " onClick={signout}>
+          <LogOut></LogOut>
+        </button>
+      </div>
+
+      <h3 className="pt-2 px-10 dark:text-white text-center text-2xl font-bold	 ">
         Generate Short URL
       </h3>
+
       <div className="px-10 pt-10">
         {!isValidInputUrl ? (
           <p className="text-red-700 ml-2 text-sm">{inputUrlErrorMessage}</p>
