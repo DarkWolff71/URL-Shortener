@@ -52,5 +52,7 @@ We chose MongoDB for our database because of the large amount of data and the ne
 ### URL Encoding Strategy
 We use a Base62 encoding strategy for generating short URLs. This allows us to store 3.5 trillion unique URLs using just 7 characters, significantly optimizing our storage requirements.
  
-###Apache Zookeeper for collision management:
+### Apache Zookeeper for collision management:
 To prevent collisions in URL encoding across multiple servers, we use Apache Zookeeper. Each server registers with Zookeeper to obtain a unique range of numbers for URL encoding. This ensures that even if a server goes down, it can restart, re-register, and receive a new range without risking collisions.
+
+## Visit https://docs.google.com/document/d/1mpzjFzUq-94H9q2YJN_3V3eS5qdP006acnT71oEWAu4/edit for setup instructions
