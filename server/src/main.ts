@@ -7,7 +7,12 @@ import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+  app.use(
+    cors({
+      origin: ['http://localhost:5173', 'http://localhost:4173'],
+      credentials: true,
+    }),
+  );
   // app.enableCors({ credentials: true });
   app.use(cookieParser());
 

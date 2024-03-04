@@ -5,5 +5,5 @@ export const BACKEND_BASE_URL =
 
 export const FRONTEND_BASE_URL =
   process.env.NODE_ENV == "production"
-    ? "http://localhost:5173"
+    ? "http://localhost:4173"
     : "http://localhost:5173";

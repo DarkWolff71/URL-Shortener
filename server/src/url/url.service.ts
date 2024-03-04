@@ -19,7 +19,7 @@ export class UrlService {
         originalUrl,
       },
     });
-    let shortenedUrl: string;
+
     if (!dbUrlResult) {
       let range = this.zkservice.getRange();
       if (range.current < range.end - 1) {
@@ -32,8 +32,8 @@ export class UrlService {
         this.zkservice.setRange(range);
       }
 
-      shortenedUrl = this.generateShortenedUrl(range.current - 1);
-      await this.prisma.url.create({
+      let shortenedUrl = this.generateShortenedUrl(range.current - 1);
+      dbUrlResult = await this.prisma.url.create({
         data: {
           originalUrl: originalUrl,
           shortenedUrl: shortenedUrl,
@@ -46,7 +46,7 @@ export class UrlService {
     } else {
       const isUserAlreadyLinked = dbUrlResult.userIDs.includes(user.userId);
       if (!isUserAlreadyLinked) {
-        const dbResult = await this.prisma.url.update({
+        dbUrlResult = await this.prisma.url.update({
           where: {
             id: dbUrlResult.id,
           },
@@ -56,18 +56,20 @@ export class UrlService {
             },
           },
         });
-        shortenedUrl = dbResult.shortenedUrl;
       } else {
-        const dbResult = await this.prisma.url.findUnique({
+        dbUrlResult = await this.prisma.url.findUnique({
           where: {
             originalUrl,
           },
         });
-        shortenedUrl = dbResult.shortenedUrl;
       }
     }
 
-    return { shortenedUrl };
+    return {
+      shortenedUrl: dbUrlResult.shortenedUrl,
+      originalUrl: dbUrlResult.originalUrl,
+      expiresAt: dbUrlResult.expiresAt,
+    };
   }
 
   async getUrls(user: UserDTO) {

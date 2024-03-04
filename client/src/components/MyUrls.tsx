@@ -61,6 +61,9 @@ export function MyUrls() {
         { withCredentials: true }
       );
       setShortUrl(response.data.shortenedUrl);
+      setUrls((urls) => {
+        return [...new Set([...urls, response.data])];
+      });
     } catch (e) {
       console.log(e);
     }
