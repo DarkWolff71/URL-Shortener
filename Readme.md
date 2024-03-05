@@ -22,7 +22,7 @@ This document provides an overview of the technology stack, system architecture,
 - **Metric Visualization:** Grafana
 
 ## System Architecture
-
+![URL Shortener Architecture](URL-Shortener-Architecture.png)
 ## Data Capacity Calculation
 
 ### Assumptions
